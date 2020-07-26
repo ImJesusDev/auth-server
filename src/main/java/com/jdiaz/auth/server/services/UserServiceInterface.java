@@ -10,5 +10,7 @@ public interface UserServiceInterface {
 	public User findByUsername(String username);
 	
 	public User updateUser(@RequestBody User user, @PathVariable Long id);
+	
+	public User registerUser(@RequestBody User user);
 
 }

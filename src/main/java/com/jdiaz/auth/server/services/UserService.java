@@ -16,9 +16,11 @@ import org.springframework.stereotype.Service;
 import com.jdiaz.auth.server.clients.UserFeignClient;
 import com.jdiaz.users.commons.models.entity.User;
 
+import feign.FeignException;
+
 @Service
 public class UserService implements UserServiceInterface, UserDetailsService {
-	
+
 	private Logger log = LoggerFactory.getLogger(UserService.class);
 
 	@Autowired
@@ -26,22 +28,20 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userClient.searchUsername(username);
-		System.out.println(user);
 
-		
-		if(user == null) {
+		try {
+
+			User user = userClient.searchUsername(username);
+			List<GrantedAuthority> authorities = user.getRoles().stream()
+					.map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+
+			return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+					user.getEnabled(), true, true, true, authorities);
+
+		} catch (FeignException e) {
 			log.error("User not found");
 			throw new UsernameNotFoundException("User not found");
 		}
-		
-		List<GrantedAuthority> authorities = user.getRoles()
-				.stream()
-				.map(role -> new SimpleGrantedAuthority(role.getName()))
-				.collect(Collectors.toList());
-		
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-				user.getEnabled(), true, true, true, authorities);
 	}
 
 	@Override
@@ -52,6 +52,12 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 	@Override
 	public User updateUser(User user, Long id) {
 		return userClient.updateUser(user, id);
+	}
+
+	@Override
+	public User registerUser(User user) {
+		User newUser = userClient.registerUser(user);
+		return newUser;
 	}
 
 }
