@@ -49,4 +49,9 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 		return userClient.searchUsername(username);
 	}
 
+	@Override
+	public User updateUser(User user, Long id) {
+		return userClient.updateUser(user, id);
+	}
+
 }
