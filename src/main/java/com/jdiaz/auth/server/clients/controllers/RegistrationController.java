@@ -9,8 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.commons.jdiaz.users.models.entity.User;
 import com.jdiaz.auth.server.services.UserServiceInterface;
-import com.jdiaz.users.commons.models.entity.User;
 
 @Controller
 public class RegistrationController {

@@ -13,8 +13,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.commons.jdiaz.users.models.entity.User;
 import com.jdiaz.auth.server.clients.UserFeignClient;
-import com.jdiaz.users.commons.models.entity.User;
 
 
 @Service

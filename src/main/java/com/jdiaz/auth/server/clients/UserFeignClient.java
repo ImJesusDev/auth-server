@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.commons.jdiaz.users.models.entity.User;
 import com.jdiaz.auth.server.configurations.FeignConfig;
-import com.jdiaz.users.commons.models.entity.User;
 
 @FeignClient(name="users-service", configuration = FeignConfig.class)
 public interface UserFeignClient {

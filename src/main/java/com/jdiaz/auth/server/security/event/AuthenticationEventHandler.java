@@ -12,8 +12,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import com.commons.jdiaz.users.models.entity.User;
 import com.jdiaz.auth.server.services.UserServiceInterface;
-import com.jdiaz.users.commons.models.entity.User;
 
 @Component
 public class AuthenticationEventHandler implements AuthenticationEventPublisher {

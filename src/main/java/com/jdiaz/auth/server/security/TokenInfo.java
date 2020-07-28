@@ -10,8 +10,8 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.stereotype.Component;
 
+import com.commons.jdiaz.users.models.entity.User;
 import com.jdiaz.auth.server.services.UserServiceInterface;
-import com.jdiaz.users.commons.models.entity.User;
 
 @Component
 public class TokenInfo implements TokenEnhancer {

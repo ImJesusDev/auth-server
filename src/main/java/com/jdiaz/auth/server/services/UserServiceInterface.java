@@ -3,7 +3,7 @@ package com.jdiaz.auth.server.services;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.jdiaz.users.commons.models.entity.User;
+import com.commons.jdiaz.users.models.entity.User;
 
 public interface UserServiceInterface {
 	
