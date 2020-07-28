@@ -1,7 +1,5 @@
 package com.jdiaz.auth.server.security.event;
 
-import java.util.Date;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +33,7 @@ public class AuthenticationEventHandler implements AuthenticationEventPublisher 
 
 		try {
 			User authenticatedUser = userService.findByUsername(authentication.getName());
-			authenticatedUser.setLastConnection(new Date());
-			userService.updateUser(authenticatedUser, authenticatedUser.getId());
+			userService.updateUserLastConnection(authenticatedUser.getId());
 		} catch (Exception e) {
 			log.info("Error updating user");
 		}

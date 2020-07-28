@@ -17,8 +17,8 @@ public interface UserFeignClient {
 	@GetMapping("/users/search-username")
 	public User searchUsername(@RequestParam String username) throws Exception;
 	
-	@PutMapping("/users/{id}")
-	public User updateUser(@RequestBody User user, @PathVariable Long id) throws Exception;
+	@PutMapping("/update-last-connection/{id}")
+	public User updateUserLastConnection(@PathVariable Long id) throws Exception;
 	
 	@PostMapping("/register-user")
 	public User registerUser(@RequestBody User user) throws Exception;

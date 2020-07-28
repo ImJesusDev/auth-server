@@ -50,8 +50,8 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 	}
 
 	@Override
-	public User updateUser(User user, Long id) throws Exception {
-		return userClient.updateUser(user, id);
+	public User updateUserLastConnection(Long id) throws Exception {
+		return userClient.updateUserLastConnection(id);
 
 	}
 

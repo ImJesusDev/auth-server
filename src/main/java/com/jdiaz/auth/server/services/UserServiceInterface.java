@@ -9,7 +9,7 @@ public interface UserServiceInterface {
 	
 	public User findByUsername(String username) throws Exception;
 	
-	public User updateUser(@RequestBody User user, @PathVariable Long id) throws Exception;
+	public User updateUserLastConnection(@PathVariable Long id) throws Exception;
 	
 	public User registerUser(@RequestBody User user) throws Exception;
 
