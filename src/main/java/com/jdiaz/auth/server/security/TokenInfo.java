@@ -22,11 +22,18 @@ public class TokenInfo implements TokenEnhancer {
 	@Override
 	public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
 		Map<String, Object> info = new HashMap<String, Object>();
-		User user = userInterface.findByUsername(authentication.getName());
-		info.put("first_name", user.getFirstName());
-		info.put("last_name", user.getLastName());
-		info.put("email", user.getEmail());
-		((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(info);
+		User user;
+		try {
+			user = userInterface.findByUsername(authentication.getName());
+			info.put("first_name", user.getFirstName());
+			info.put("last_name", user.getLastName());
+			info.put("email", user.getEmail());
+			((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(info);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		return accessToken;
 	}
 

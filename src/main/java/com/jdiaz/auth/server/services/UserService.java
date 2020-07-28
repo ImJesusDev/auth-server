@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import com.jdiaz.auth.server.clients.UserFeignClient;
 import com.jdiaz.users.commons.models.entity.User;
 
-import feign.FeignException;
 
 @Service
 public class UserService implements UserServiceInterface, UserDetailsService {
@@ -38,26 +37,28 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 			return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
 					user.getEnabled(), true, true, true, authorities);
 
-		} catch (FeignException e) {
+		} catch (Exception e) {
 			log.error("User not found");
 			throw new UsernameNotFoundException("User not found");
 		}
 	}
 
 	@Override
-	public User findByUsername(String username) {
+	public User findByUsername(String username) throws Exception {
 		return userClient.searchUsername(username);
+
 	}
 
 	@Override
-	public User updateUser(User user, Long id) {
+	public User updateUser(User user, Long id) throws Exception {
 		return userClient.updateUser(user, id);
+
 	}
 
 	@Override
-	public User registerUser(User user) {
-		User newUser = userClient.registerUser(user);
-		return newUser;
+	public User registerUser(User user) throws Exception {
+		return userClient.registerUser(user);
+
 	}
 
 }

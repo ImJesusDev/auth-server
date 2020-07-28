@@ -17,12 +17,12 @@ import com.jdiaz.users.commons.models.entity.User;
 
 @Component
 public class AuthenticationEventHandler implements AuthenticationEventPublisher {
-	
+
 	private Logger log = LoggerFactory.getLogger(AuthenticationEventHandler.class);
-	
+
 	@Value("${config.security.oauth.client.id}")
 	private String clientId;
-	
+
 	@Autowired
 	private UserServiceInterface userService;
 
@@ -32,13 +32,18 @@ public class AuthenticationEventHandler implements AuthenticationEventPublisher 
 		if (authentication.getName().equalsIgnoreCase(clientId)) {
 			return;
 		}
-		User authenticatedUser = userService.findByUsername(authentication.getName());
-		authenticatedUser.setLastConnection(new Date());
-		userService.updateUser(authenticatedUser, authenticatedUser.getId());
+
+		try {
+			User authenticatedUser = userService.findByUsername(authentication.getName());
+			authenticatedUser.setLastConnection(new Date());
+			userService.updateUser(authenticatedUser, authenticatedUser.getId());
+		} catch (Exception e) {
+			log.info("Error updating user");
+		}
 		String message = "Succesful login of user: " + user.getUsername();
 		System.out.println(message);
 		log.info(message);
-		
+
 	}
 
 	@Override
@@ -46,7 +51,7 @@ public class AuthenticationEventHandler implements AuthenticationEventPublisher 
 		String message = "Error on login: " + exception.getMessage();
 		System.out.println(message);
 		log.info(message);
-		
+
 	}
 
 }
