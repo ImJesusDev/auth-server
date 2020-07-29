@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import com.commons.jdiaz.users.models.entity.User;
 import com.jdiaz.auth.server.clients.UserFeignClient;
 
+import brave.Tracer;
+
 
 @Service
 public class UserService implements UserServiceInterface, UserDetailsService {
@@ -24,6 +26,9 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 
 	@Autowired
 	private UserFeignClient userClient;
+	
+	@Autowired 
+	private Tracer tracer;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -38,8 +43,10 @@ public class UserService implements UserServiceInterface, UserDetailsService {
 					user.getEnabled(), true, true, true, authorities);
 
 		} catch (Exception e) {
-			log.error("User not found");
-			throw new UsernameNotFoundException("User not found");
+			String message = "Login error, the user " + username + " was not found";
+			tracer.currentSpan().tag("user.error.not-found", message + ": " + e.getMessage());
+			log.error(message);
+			throw new UsernameNotFoundException(message);
 		}
 	}
 

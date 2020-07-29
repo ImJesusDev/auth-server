@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import com.commons.jdiaz.users.models.entity.User;
 import com.jdiaz.auth.server.services.UserServiceInterface;
 
+import brave.Tracer;
+
 @Component
 public class AuthenticationEventHandler implements AuthenticationEventPublisher {
 
@@ -23,6 +25,9 @@ public class AuthenticationEventHandler implements AuthenticationEventPublisher 
 
 	@Autowired
 	private UserServiceInterface userService;
+
+	@Autowired
+	private Tracer tracer;
 
 	@Override
 	public void publishAuthenticationSuccess(Authentication authentication) {
@@ -35,10 +40,12 @@ public class AuthenticationEventHandler implements AuthenticationEventPublisher 
 			User authenticatedUser = userService.findByUsername(authentication.getName());
 			userService.updateUserLastConnection(authenticatedUser.getId());
 		} catch (Exception e) {
-			log.info("Error updating user");
+			String message = "Error updating last connection for user" + authentication.getName();
+			log.error(message);
+			tracer.currentSpan().tag("user.error.update-last-connection", message + ": " + e.getMessage());
 		}
 		String message = "Succesful login of user: " + user.getUsername();
-		System.out.println(message);
+		tracer.currentSpan().tag("user.success.login", message);
 		log.info(message);
 
 	}
@@ -46,7 +53,7 @@ public class AuthenticationEventHandler implements AuthenticationEventPublisher 
 	@Override
 	public void publishAuthenticationFailure(AuthenticationException exception, Authentication authentication) {
 		String message = "Error on login: " + exception.getMessage();
-		System.out.println(message);
+		tracer.currentSpan().tag("user.success.login", message);
 		log.info(message);
 
 	}
