@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ExceptionAdvice {
 	
-	@ExceptionHandler(value = MyBadRequestException.class)
-	public ResponseEntity<CustomErrorResponse> handleBadRequestException(MyBadRequestException e) {
+	@ExceptionHandler(value = BadRequestException.class)
+	public ResponseEntity<CustomErrorResponse> handleBadRequestException(BadRequestException e) {
 		String message = e.getMessage();
 		CustomErrorResponse error = new CustomErrorResponse("BAD_REQUEST_ERROR", message);
 		error.setTimestamp(LocalDateTime.now());

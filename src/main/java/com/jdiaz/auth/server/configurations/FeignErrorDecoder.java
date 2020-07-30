@@ -3,7 +3,7 @@ package com.jdiaz.auth.server.configurations;
 import java.io.IOException;
 
 
-import com.jdiaz.auth.server.exceptions.MyBadRequestException;
+import com.jdiaz.auth.server.exceptions.BadRequestException;
 
 import feign.Response;
 import feign.Util;
@@ -18,7 +18,7 @@ public class FeignErrorDecoder implements ErrorDecoder {
             try {
                 byte[] bodyData = Util.toByteArray(response.body().asInputStream());
                 String responseBody = new String(bodyData);
-                return new MyBadRequestException(responseBody);
+                return new BadRequestException(responseBody);
             } catch (IOException e) {
                 e.printStackTrace();
             }
