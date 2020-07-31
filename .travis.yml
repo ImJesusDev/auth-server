@@ -1,6 +1,12 @@
 sudo: required
+language: java
+jdk:
+ - openjdk12
 services:
     - docker
+
+before_install:
+    ./mvnw clean install
 
 script:
     - docker build -t jdiaz/auth-server .
