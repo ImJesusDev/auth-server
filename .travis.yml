@@ -6,7 +6,8 @@ services:
     - docker
 
 before_install:
-    ./mvnw clean install
+    - mvn install:install-file -Dfile=src/main/resources/lib/users-commons-0.0.1-SNAPSHOT.jar -DgroupId=com.jdiaz.users.commons -DartifactId=users-commons -Dversion=0.0.1-SNAPSHOT -Dpackaging=jar
+    - mvn clean install
 
 script:
     - docker build -t jdiaz/auth-server .
